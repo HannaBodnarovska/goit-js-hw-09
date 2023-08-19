@@ -1,17 +1,3 @@
-import Notiflix from "notiflix";
-const form = document.querySelector('.form');
-function createPromise(position, delay) {
-  return new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
-    
-    if (shouldResolve) {
-      resolve({ position, delay });
-    } else {
-      reject({ position, delay });
-    }
-  });
-}
-
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -31,21 +17,25 @@ form.addEventListener('submit', (event) => {
     .then(results => {
       Notiflix.Loading.remove();
       results.forEach(({ position, delay }) => {
-        if (position === 1) {
-          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        } else {
-          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`, { position: 'topRight' });
-        }
+        setTimeout(() => {
+          if (position === 1) {
+            Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+          } else {
+            Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`, { position: 'topRight' });
+          }
+        }, delay);
       });
     })
     .catch(results => {
       Notiflix.Loading.remove();
       results.forEach(({ position, delay }) => {
-        if (position === 1) {
-          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-        } else {
-          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`, { position: 'topRight' });
-        }
+        setTimeout(() => {
+          if (position === 1) {
+            Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+          } else {
+            Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`, { position: 'topRight' });
+          }
+        }, delay);
       });
     });
 });
